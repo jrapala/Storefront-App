@@ -1,0 +1,24 @@
+{
+  "name": "storefront-app",
+  "version": "1.0.0",
+  "description": "Week 12 Homework - Node.js &amp; MySQL Assignment: Storefront CLI App",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrapala/Storefront-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrapala/Storefront-App/issues"
+  },
+  "homepage": "https://github.com/jrapala/Storefront-App#readme",
+  "dependencies": {
+    "console.table": "^0.9.1",
+    "inquirer": "^4.0.0",
+    "mysql": "^2.15.0"
+  }
+}
