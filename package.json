@@ -19,6 +19,7 @@
   "dependencies": {
     "console.table": "^0.9.1",
     "inquirer": "^4.0.0",
+    "is-number": "^4.0.0",
     "mysql": "^2.15.0"
   }
 }
