@@ -5,6 +5,8 @@
 
 *Storefront-App* is a CLI app that lets users load items from a MySQL database and purchase a specific quantity of items all via the command line. When a user makes a request to purchase, the quantity desired is checked against the database before the purchase is made. If an appropriate quanity of product exists, the database is updated after the purchase is completed. 
 
+This application provides a simple way for a user to interact with an inventory database that a store may have for their products. A user's purchase will immediately update the database. The syntax I used to build the database that I am using in my examples can be found in `storefrontschema.sql`.
+
 ## Walkthrough
 
 1. After installing your dependencies using `npm install`, use node to run `bamazonCustomer.js`
