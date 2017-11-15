@@ -1,7 +1,7 @@
 // Storefront App | By Juliette Rapala
 // =====================================================================================
 
-  // Setup Variables 
+  // Setup  
   // =====================================================================================
 
     // NPM Packages
@@ -27,16 +27,18 @@
   // Functions
   // =====================================================================================
 
-
+    // Read database
     function readProducts() {
-      console.log("Selecting all products...\n");
+      // Display all products in the store
+      console.log("\nSelecting all products...\n");
       connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
+        // Sell function
         sellToUser();
-        //connection.end();
       });
+
     }
 
     // Update product
@@ -51,9 +53,26 @@
         }
       ],
       function(err, res) {
-        console.log(res.affectedRows + " products updated!\n");
+        // Error handling
+        if (err) throw err;
       });
     };
+
+    function promptUser() {
+      inquirer.prompt([{
+        name: "buyAgain",
+        type: 'list',
+        message: "Would you like to buy another product?",
+        choices: ['Yes', 'No']
+    }]).then(function(response) {
+      if (response.buyAgain === "Yes") {
+        readProducts();
+      } else {
+        console.log("\nThank you! Have a good day!\n");
+        process.exit(); 
+      }
+    })
+  };
 
     // Let a customer purchase a product
     function sellToUser() {
@@ -65,8 +84,8 @@
         // If Q, quit. If any other letter, ask for numerical input.
         validate: function(userInput) {
           if (userInput.toUpperCase() === "Q") {
-            console.log("\n\nThank you! Have a good day!");
-            connection.end();
+            console.log("\nThank you! Have a good day!");
+            process.exit(); 
           } else if (isNumber(userInput)) {
             return true;
           } else {
@@ -82,7 +101,7 @@
         validate: function(userInput) {
           if (userInput.toUpperCase() === "Q") {
             console.log("\n\nThank you! Have a good day!");
-            connection.end();
+            process.exit(); 
           } else if (isNumber(userInput)) {
             return true;
           } else {
@@ -92,42 +111,39 @@
       }}]).then(function(response) {
         // Looks up product in database
         connection.query("SELECT * FROM products where item_id=?", [response.idOfProduct], function(err, res) {
+          // Set up variables
           var productName;
           var currentQuantity;
           var desiredQuantity = response.quantityOfProduct;
+          // Error handling
           if (err) throw err;
           // Find product name and current quantity
           for (var i = 0; i < res.length; i++) {
             productName = res[i].product_name;
             currentQuantity = res[i].stock_quantity;
           };
-          // If desired quantity in stock..
+          // If desired quantity in stock, purchase product and update database.
           if (currentQuantity >= desiredQuantity) {
-            //updateProduct();
             var newQuantity = currentQuantity - desiredQuantity;
             updateProduct(response.idOfProduct, newQuantity);
-            console.log(`Successfully purchased ${desiredQuantity} unit(s) of ${productName}(s).`);
-            connection.end();
-          // If desired quantity not in stock..
+            console.log(`\nSuccessfully purchased ${desiredQuantity} unit(s) of ${productName}(s).\n`);
+            // Ask user if they would like to purchase another product
+            promptUser();
+          // If desired quantity not in stock, user cannot purchase item
           } else {
-            console.log(`Sorry, we do not have ${desiredQuantity} unit(s) of ${productName}.`)
-            sellToUser();
+            if (productName === undefined) {
+              console.log(`\nSorry, we do not have a product with that ID number.\n`);
+              promptUser();
+            } else {
+              console.log(`\nSorry, we do not have ${desiredQuantity} unit(s) of ${productName}.\n`);
+              // Ask user if they would like to purchase another product
+              promptUser();
+            }
           }
-
         });
-
-      });
-
-        
+      });       
     }
 
-
-    //   console.log(`Successfully purchased ${productId} ${quantity}(s).`);
-    //   var query = connection.query(
-    //   "UPDATE products SET ? WHERE ?", {quantity: 100}, function(err, res) {
-
-    //   });
-    // }
 
 
   // Start up Function
@@ -135,7 +151,6 @@
 
     connection.connect(function(err) {
       if (err) throw err;
-      console.log("connected as id " + connection.threadId + "\n");
-      readProducts()
     });
+    readProducts();
 
