@@ -84,7 +84,7 @@
         // If Q, quit. If any other letter, ask for numerical input.
         validate: function(userInput) {
           if (userInput.toUpperCase() === "Q") {
-            console.log("\nThank you! Have a good day!");
+            console.log("\n\nThank you! Have a good day!");
             process.exit(); 
           } else if (isNumber(userInput)) {
             return true;
