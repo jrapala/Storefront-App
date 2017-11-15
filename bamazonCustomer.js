@@ -125,8 +125,12 @@
             productPrice = res[i].price;
             currentQuantity = res[i].stock_quantity;
           };
+          // If user requests 0 units to buy, no purchase is made.
+          if (desiredQuantity === '0') {
+            console.log("\nQuantity purchased is 0. No purchase made.\n");
+            promptUser();
           // If desired quantity in stock, purchase product, show grand total, and update database.
-          if (currentQuantity >= desiredQuantity) {
+          } else if (currentQuantity >= desiredQuantity) {
             var newQuantity = currentQuantity - desiredQuantity;
             var grandTotal = desiredQuantity * parseFloat(productPrice);
             updateProduct(response.idOfProduct, newQuantity);
@@ -136,6 +140,7 @@
             promptUser();
           // If desired quantity not in stock, user cannot purchase item
           } else {
+            // Handler if product is not in the database
             if (productName === undefined) {
               console.log(`\nSorry, we do not have a product with that ID number.\n`);
               promptUser();

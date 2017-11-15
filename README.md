@@ -47,6 +47,10 @@ This application provides a simple way for a user to interact with an inventory 
 
 	![ID number error handling](images/09-bamazonCustomer.png)
 
+* No purchase will be made if the desired quantity is zero.
+
+	![ID number error handling](images/10-bamazonCustomer.png)
+
 ## Dependencies
 * **mysql NPM Package:** A node.js driver for MySQL.
 * **inquirer NPM Package:** Used to prompt user for input via the console (e.g. product to purchase, quantity to purchase).
