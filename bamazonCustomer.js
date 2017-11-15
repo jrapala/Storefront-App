@@ -113,20 +113,25 @@
         connection.query("SELECT * FROM products where item_id=?", [response.idOfProduct], function(err, res) {
           // Set up variables
           var productName;
+          var productPrice;
           var currentQuantity;
           var desiredQuantity = response.quantityOfProduct;
+          var grandTotal;
           // Error handling
           if (err) throw err;
           // Find product name and current quantity
           for (var i = 0; i < res.length; i++) {
             productName = res[i].product_name;
+            productPrice = res[i].price;
             currentQuantity = res[i].stock_quantity;
           };
-          // If desired quantity in stock, purchase product and update database.
+          // If desired quantity in stock, purchase product, show grand total, and update database.
           if (currentQuantity >= desiredQuantity) {
             var newQuantity = currentQuantity - desiredQuantity;
+            var grandTotal = desiredQuantity * parseFloat(productPrice);
             updateProduct(response.idOfProduct, newQuantity);
-            console.log(`\nSuccessfully purchased ${desiredQuantity} unit(s) of ${productName}(s).\n`);
+            console.log(`\nSuccessfully purchased ${desiredQuantity} unit(s) of ${productName}(s).`);
+            console.log(`Your total is $${grandTotal}.\n`);
             // Ask user if they would like to purchase another product
             promptUser();
           // If desired quantity not in stock, user cannot purchase item

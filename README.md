@@ -21,7 +21,7 @@ This application provides a simple way for a user to interact with an inventory 
 
 	![Choosing a quantity](images/03-bamazonCustomer.png)
 
-4. If the desired quantity of product exists, your purchase will be successful, and you will be asked if you would like to purchase another product.
+4. If the desired quantity of product exists, your purchase will be successful, you will be shown your grand total, and you will be asked if you would like to purchase another product.
 
 	![Successful purchase](images/04-bamazonCustomer.png)
 
