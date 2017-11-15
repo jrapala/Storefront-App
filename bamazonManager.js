@@ -51,8 +51,7 @@
             viewProducts();
             break;
           case ('View Low Inventory'):
-            console.log('Option 2');
-            //viewLowInventory();
+            viewLowInventory();
             break;
           case ('Add to Inventory'):
             console.log('Option 3');
@@ -78,10 +77,28 @@
       // Display all products in the store
       console.log("\nSelecting all products...\n");
       connection.query("SELECT * FROM products", function(err, res) {
+        // Error handling
         if (err) throw err;
         // Log all results of the SELECT statement
         console.table(res);
         promptUser();
+      });
+    }
+
+    // View low product inventory
+    function viewLowInventory() {
+      connection.query("SELECT * FROM products WHERE stock_quantity<5", function(err, res) {
+        // Error handling
+        if (err) throw err;
+        // Message if all products have at least 5 items in stock.
+        if (res.length === 0) {
+          console.log("\nAll products have at least 5 items in stock.\n")
+          promptUser();
+        // Display any products that have less than 5 items in stock.
+        } else {
+          console.table(res);
+          promptUser();
+        }
       });
     }
 
