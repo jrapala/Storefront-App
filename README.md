@@ -1,13 +1,27 @@
 # Storefront-App
 ### Week 12 Homework: Node.js &amp; MySQL Assignment: Storefront CLI App
 
+---
 ## Overview
 
-*Storefront-App* is a CLI app that lets users load items from a MySQL database and purchase a specific quantity of items all via the command line. When a user makes a request to purchase, the quantity desired is checked against the database before the purchase is made. If an appropriate quanity of product exists, the database is updated after the purchase is completed. 
+*Storefront-App* is a CLI app that lets users load items from a MySQL database and interact with the database according to their role. All interactions occur via the command line.
 
-This application provides a simple way for a user to interact with an inventory database that a store may have for their products. A user's purchase will immediately update the database. The syntax I used to build the database that I am using in my examples can be found in `storefrontschema.sql`.
+As a Customer, a user may purchase a specific quantity of items available in the store. When a user makes a request to purchase, the quantity desired is checked against the database before the purchase is made. If an appropriate quantity of product exists, the purchase is completed, and the database is updated.
 
-## Walkthrough
+As a Manager, a user may choose to do any of the following:
+
+1. View all products that are for sale.
+2. View products that are low in inventory (in this case, fewer than 5 units in stock).
+3. Add more inventory to an existing product. This will update the database.
+4. Add a new product to the store. This will update the database.
+
+This application provides a simple way for a user to interact with an inventory database that a store may have for their products. 
+Different script exists for different roles (customer or manager), which provide the appropriate actions each role may need.
+
+The syntax I used to build the database that I am using in my examples can be found in `storefrontschema.sql`.
+
+---
+## Customer View Walkthrough - `bamazonCustomer.js` 
 
 1. After installing your dependencies using `npm install`, use node to run `bamazonCustomer.js`
 
@@ -33,7 +47,7 @@ This application provides a simple way for a user to interact with an inventory 
 
 	![Qutting the application](images/06-bamazonCustomer.png)
 
-## Notes
+## Customer View Notes
 
 * You may also quit by pressing "Q" on any of the purchase prompts.
 
@@ -50,6 +64,37 @@ This application provides a simple way for a user to interact with an inventory 
 * No purchase will be made if the desired quantity is zero.
 
 	![ID number error handling](images/10-bamazonCustomer.png)
+
+---
+## Manager View Walkthrough - `bamazonManager.js` 
+
+1. After installing your dependencies using `npm install`, use node to run `bamazonManager.js`
+
+	![Starting bamazonManager.js](images/01-bamazonManager.png)
+
+2. On load, you will be given four options to choose from:
+
+	![Options available for manager](images/02-bamazonManager.png)
+
+3. `View Product For Sale`: Choosing this option will display all items available to purchase. 
+
+	![Loading products available in the store](images/03-bamazonManager.gif)
+
+4. `View Low Inventory`: Choosing this option will display any products that are low in inventory (less than 5 units available).
+	
+	![Loading products with low inventory](images/04-bamazonManager.gif)
+
+5. `Add to Inventory`: Choosing this option will prompt the user for the ID of a product they wish to increase the inventory of, as well as the number of units they wish to add. Once entered, the database is updated, and a message will confirm the update.
+
+	![Adding more inventory](images/05-bamazonManager.gif)
+
+6. `Add New Product`: Choosing this option will prompt the user for the name of a product, the department of the product, the price of the product, and the stock quantity of the product. Once entered, the database is updated, and all items available in the store are displayed to confirm. The ID of the new product is automatically generated.
+
+	![Adding a new product](images/06-bamazonManager.gif)
+
+7. `Quit`: Choosing this option will quit the application.
+
+	![Quitting the application](images/07-bamazonManager.gif)
 
 ## Dependencies
 * **mysql NPM Package:** A node.js driver for MySQL.
