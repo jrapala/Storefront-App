@@ -3,12 +3,6 @@
 
 // To Do
 
-// If a manager selects View Low Inventory, then it should list all items with an inventory 
-// count lower than five.
-
-// If a manager selects Add to Inventory, your app should display a prompt that will let the 
-// manager "add more" of any item currently in the store.
-
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
 
 
@@ -57,8 +51,7 @@
             addToInventory();
             break;
           case ('Add New Product'):
-            console.log('Option 4');
-            //addNewProduct();
+            addNewProduct();
             break;
           case ('Quit'):
             console.log("\nThank you! Have a good day!\n");
@@ -179,7 +172,7 @@
             newQuantity = currentQuantity + quantityToAdd;
             // Update product in database
             updateProduct(productId, newQuantity);
-            console.log(`\n${quantityToAdd} units of ${productName} added. The new quantity in stock is ${newQuantity}.\n`)
+            console.log(`\n${quantityToAdd} unit(s) of ${productName}(s) added. The new quantity in stock is ${newQuantity}.\n`)
             // Return to prompts
             promptUser();
           }
@@ -187,125 +180,96 @@
       });
     };
 
-
-    //     // Get current inventory
-    //     connection.query("UPDATE products SET ? WHERE ?",
-    //   [
-    //     {
-    //       stock_quantity: newQuantity
-    //     },
-    //     {
-    //       item_id: productId
-    //     }
-    //   ],
-    //   function(err, res) {
-    //     // Error handling
-    //     if (err) throw err;
-    //   });
-
-    //     var productId = response
-    // }
-
-    // // Update product
-    // function updateProduct(productId, newQuantity) {
-    //   connection.query("UPDATE products SET ? WHERE ?",
-    //   [
-    //     {
-    //       stock_quantity: newQuantity
-    //     },
-    //     {
-    //       item_id: productId
-    //     }
-    //   ],
-    //   function(err, res) {
-    //     // Error handling
-    //     if (err) throw err;
-    //   });
-    // };
-
-
-
-    // // Let a customer purchase a product
-    // function sellToUser() {
-    //   inquirer.prompt([{
-    //     // Prompt for ID number
-    //     name: "idOfProduct",
-    //     type: "input",
-    //     message: "What is the ID number of the product you wish to purchase? (Press Q to Quit)",
-    //     // If Q, quit. If any other letter, ask for numerical input.
-    //     validate: function(userInput) {
-    //       if (userInput.toUpperCase() === "Q") {
-    //         console.log("\n\nThank you! Have a good day!");
-    //         process.exit(); 
-    //       } else if (isNumber(userInput)) {
-    //         return true;
-    //       } else {
-    //         console.log("\n\nYou did not choose a numerical ID. Please try again!\n");
-    //         return false;
-    //       }
-    //     }},{
-    //     // Prompt for quantity 
-    //     name: "quantityOfProduct",
-    //     type: "input",
-    //     message: "How many units would you like to purchase? (Press Q to Quit)",
-    //     // If Q, quit. If any other letter, ask for numerical input.
-    //     validate: function(userInput) {
-    //       if (userInput.toUpperCase() === "Q") {
-    //         console.log("\n\nThank you! Have a good day!");
-    //         process.exit(); 
-    //       } else if (isNumber(userInput)) {
-    //         return true;
-    //       } else {
-    //         console.log("\n\nYou did not choose a numerical quantity. Please try again!\n");
-    //         return false;
-    //       }
-    //   }}]).then(function(response) {
-    //     // Looks up product in database
-    //     connection.query("SELECT * FROM products where item_id=?", [response.idOfProduct], function(err, res) {
-    //       // Set up variables
-    //       var productName;
-    //       var productPrice;
-    //       var currentQuantity;
-    //       var desiredQuantity = response.quantityOfProduct;
-    //       var grandTotal;
-    //       // Error handling
-    //       if (err) throw err;
-    //       // Find product name and current quantity
-    //       for (var i = 0; i < res.length; i++) {
-    //         productName = res[i].product_name;
-    //         productPrice = res[i].price;
-    //         currentQuantity = res[i].stock_quantity;
-    //       };
-    //       // If user requests 0 units to buy, no purchase is made.
-    //       if (desiredQuantity === '0') {
-    //         console.log("\nQuantity purchased is 0. No purchase made.\n");
-    //         promptUser();
-    //       // If desired quantity in stock, purchase product, show grand total, and update database.
-    //       } else if (currentQuantity >= desiredQuantity) {
-    //         var newQuantity = currentQuantity - desiredQuantity;
-    //         var grandTotal = desiredQuantity * parseFloat(productPrice);
-    //         updateProduct(response.idOfProduct, newQuantity);
-    //         console.log(`\nSuccessfully purchased ${desiredQuantity} unit(s) of ${productName}(s).`);
-    //         console.log(`Your total is $${grandTotal}.\n`);
-    //         // Ask user if they would like to purchase another product
-    //         promptUser();
-    //       // If desired quantity not in stock, user cannot purchase item
-    //       } else {
-    //         // Handler if product is not in the database
-    //         if (productName === undefined) {
-    //           console.log(`\nSorry, we do not have a product with that ID number.\n`);
-    //           promptUser();
-    //         } else {
-    //           console.log(`\nSorry, we do not have ${desiredQuantity} unit(s) of ${productName}.\n`);
-    //           // Ask user if they would like to purchase another product
-    //           promptUser();
-    //         }
-    //       }
-    //     });
-    //   });       
-    // }
-
-
+    function addNewProduct() {
+      inquirer.prompt([{
+        // Prompt for name 
+        name: "nameOfNewProduct",
+        type: "input",
+        message: "What is the name of the new product? (Press Q to Exit)",
+        // If Q, quit. 
+        validate: function(userInput) {
+          if (userInput.toUpperCase() === "Q") {
+            console.log("\n\n");
+            promptUser();
+          } else {
+            return true;
+          }
+        }},{
+        // Prompt for department 
+        name: "departmentOfNewProduct",
+        type: "input",
+        message: "What is the department of the new product? (Press Q to Exit)",
+        // If Q, quit. 
+        validate: function(userInput) {
+          if (userInput.toUpperCase() === "Q") {
+            console.log("\n\n");
+            promptUser();
+          } else {
+            return true;
+          }
+        }},{
+        // Prompt for price 
+        name: "priceOfNewProduct",
+        type: "input",
+        message: "What is the price of the new product? (Press Q to Exit)",
+        // If Q, quit. If any other letter, ask for numerical input.
+        validate: function(userInput) {
+          if (userInput.toUpperCase() === "Q") {
+            console.log("\n\n");
+            promptUser();
+          } else if (isNumber(userInput)) {
+            return true;
+          } else {
+            console.log("\n\nYou did not enter a number. Please try again!\n");
+            return false;
+          }
+        }},{
+        // Prompt for quantity 
+        name: "quantityOfNewProduct",
+        type: "input",
+        message: "What is the stock quantity of the new product? (Press Q to Exit)",
+        // If Q, quit. If any other letter, ask for numerical input.
+        validate: function(userInput) {
+          if (userInput.toUpperCase() === "Q") {
+            console.log("\n\n");
+            promptUser();
+          } else if (isNumber(userInput)) {
+            return true;
+          } else {
+            console.log("\n\nYou did not enter a number. Please try again!\n");
+            return false;
+          }
+      }}]).then(function(response) {  
+        // Variables
+        var productName = response.nameOfNewProduct;
+        var productDepartment = response.departmentOfNewProduct;
+        var productPrice = response.priceOfNewProduct;
+        var productQuantity = response.quantityOfNewProduct;
+        // Messaging
+        console.log(`\n Adding ${productQuantity} unit(s) of ${productName}(s) to the ${productDepartment} department priced at $${productPrice} per unit...\n`);
+        // Update database
+        connection.query("INSERT INTO products SET ?",
+          {
+            product_name: productName,
+            department_name: productDepartment,
+            price: productPrice,
+            stock_quantity: productQuantity
+          }, 
+          function(err, res) {
+            // Error handling
+            if (err) throw err;
+            // Load updated table
+            connection.query("SELECT * FROM products", function(err, res) {
+              // Error handling
+              if (err) throw err;
+              // Log all results of the SELECT statement
+              console.table(res);
+              // Return to prompts
+              promptUser();
+            })
+          })
+        });
+    };
 
   // Start up Function
   // =====================================================================================
