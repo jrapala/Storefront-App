@@ -96,6 +96,14 @@ The syntax I used to build the database that I am using in my examples can be fo
 
 	![Quitting the application](images/07-bamazonManager.gif)
 
+## Manager View Notes
+
+* When adding more inventory, or adding a new product, you may exit back to the prompt screen by pressing "Q".
+
+	![Exiting back to the prompt screen](images/08-bamazonManager.png)
+
+	![Exiting back to the prompt screen](images/09-bamazonManager.png)
+
 ## Dependencies
 * **mysql NPM Package:** A node.js driver for MySQL.
 * **inquirer NPM Package:** Used to prompt user for input via the console (e.g. product to purchase, quantity to purchase).
